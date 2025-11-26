@@ -24,11 +24,11 @@ class ShortCreate(BaseModel):
     title: str
     tags: List[str]
 
-@app.get("/api/shorts")
+@app.get("/")
 def get_shorts():
     return _SHORTS
 
-@app.post("/api/shorts")
+@app.post("/")
 def create_short(short: ShortCreate):
     if not short.tags:
         raise HTTPException(400, "At least one tag is required.")
@@ -37,7 +37,7 @@ def create_short(short: ShortCreate):
     _SHORTS.append(new_short)
     return new_short
 
-@app.delete("/api/shorts/{short_id}")
+@app.delete("/{short_id}")
 def delete_short(short_id: int):
     for i, s in enumerate(_SHORTS):
         if s['id'] == short_id:
