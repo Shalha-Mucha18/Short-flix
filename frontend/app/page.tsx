@@ -4,34 +4,20 @@ import { Short } from "@/types";
 export const revalidate = 0;
 
 async function getShorts(): Promise<Short[]> {
-  let base = "";
-  
-  // In production (Vercel), use the deployment URL
+  // On Vercel, skip SSR fetch and let client handle it
   if (process.env.NODE_ENV === "production") {
-    base = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : "";
-  } else if (process.env.NEXT_PUBLIC_API_BASE) {
-    base = process.env.NEXT_PUBLIC_API_BASE;
-  } else {
-    base = "http://localhost:8000";
+    return [];
   }
   
-  base = base.replace(/\/$/, "");
+  // Only fetch on localhost during development
+  const base = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000";
 
   try {
-    const url = `${base}/api/shorts`;
-    console.log("Fetching from:", url);
-    const response = await fetch(url, { cache: 'no-store' });
-
+    const response = await fetch(`${base}/api/shorts`, { cache: 'no-store' });
     if (!response.ok) {
-      console.error(`Failed to fetch shorts: ${response.status} ${response.statusText}`);
-      throw new Error(`Failed to fetch shorts: ${response.statusText}`);
+      return [];
     }
-
-    const data = await response.json();
-    console.log("Fetched shorts:", data.length);
-    return data;
+    return response.json();
   } catch (error) {
     console.error("Error fetching shorts:", error);
     return [];
