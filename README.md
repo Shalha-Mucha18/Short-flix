@@ -34,15 +34,6 @@ npm i -g vercel
 # Run from project root
 vercel dev
 ```
-API available at http://localhost:3000/api/shorts
-
-## Deployment
-Deployed on Vercel:
-- Frontend: Root URL
-- API: `/api/shorts`
-
-Push to main branch for auto-deployment.
-
 ## Improvements
 With more time, I would implement:
 - **Persistence**: Integrate a database (e.g., PostgreSQL/Supabase) to save videos and favorites permanently
@@ -50,10 +41,4 @@ With more time, I would implement:
 - **Media Hosting**: Upload videos to cloud storage (AWS S3 or Cloudinary) instead of using external links
 - **Infinite Scroll**: Load videos dynamically as the user scrolls
 
-## AI Usage
-This project was developed with the aid of an AI coding assistant. The AI helped:
-- Scaffold the monorepo structure for Next.js and Python backend
-- Design the "Short-flix" UI with modern aesthetics and responsive CSS
-- Debug cross-origin resource sharing (CORS) and API routing issues
-- Troubleshoot Vercel deployment issues and switch from FastAPI to BaseHTTPRequestHandler for better serverless compatibility
-- Configure the Vercel deployment settings for a seamless hybrid build
+
