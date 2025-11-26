@@ -17,10 +17,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # On Vercel, Mangum strips /api/shorts, so no prefix needed
-    # On localhost, we need the full prefix
-    prefix = "" if os.getenv("VERCEL") else "/api/shorts"
-    app.include_router(shorts.router, prefix=prefix)
+    app.include_router(shorts.router, prefix="/api/shorts")
 
     return app
 

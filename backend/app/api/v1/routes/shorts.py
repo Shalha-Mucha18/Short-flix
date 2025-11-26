@@ -10,7 +10,7 @@ router = APIRouter(tags=["shorts"])
 
 
 
-@router.get("/", response_model=List[Short])
+@router.get("", response_model=List[Short])
 def get_shorts(
     q: Optional[str] = Query(None, description="search by title or tag"),
     tag: Optional[str] = Query(None, description="filter by tag"),
@@ -18,7 +18,7 @@ def get_shorts(
     return list_shorts(q=q, tag=tag)
 
 
-@router.post("/", response_model=Short, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=Short, status_code=status.HTTP_201_CREATED)
 def add_short(payload: ShortCreate) -> Short:
     if not payload.tags:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="At least one tag is required.")
