@@ -4,7 +4,7 @@ A Netflix-style micro-video platform built with Next.js and FastAPI, designed fo
 
 ## Tech Stack
 - **Frontend**: Next.js (React), TypeScript, Vanilla CSS for premium styling.
-- **Backend**: FastAPI (Python), Mangum (AWS Lambda/Vercel adapter).
+- **Backend**: FastAPI (Python)
 - **Deployment**: Vercel (Hybrid Next.js + Python Serverless).
 
 ## Project Structure
