@@ -22,7 +22,10 @@ def get_shorts(
 def add_short(payload: ShortCreate) -> Short:
     if not payload.tags:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="At least one tag is required.")
-    return create_short(payload)
+    try:
+        return create_short(payload)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
 @router.delete("/{short_id}", status_code=status.HTTP_204_NO_CONTENT)
