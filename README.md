@@ -9,7 +9,7 @@ A Netflix-style micro-video platform built with Next.js and FastAPI, designed fo
 
 ## Project Structure
 - `frontend/`: Next.js application handling the UI and client-side logic.
-- `backend/`: FastAPI application managing the video data and API endpoints.
+- `backend/`: FastAPI 
 - `api/`: Serverless entry point adapting FastAPI for Vercel.
 - `vercel.json`: Configuration for routing and build processes.
 
