@@ -59,14 +59,30 @@ export function ShortsView({ initialShorts }: Props) {
   useEffect(() => {
     if (filtered.length === 0) {
       setActiveId(null);
-      return;
     }
 
     const current = filtered.find((item) => item.id === activeId);
-    if (!current) {
+    if (!current && filtered.length > 0) {
       setActiveId(filtered[0].id);
     }
   }, [activeId, filtered]);
+
+  useEffect(() => {
+    if (shorts.length === 0) {
+      fetch(`${apiBase}/api/shorts`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch");
+          return res.json();
+        })
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            setShorts(data);
+            setActiveId(data[0].id);
+          }
+        })
+        .catch((err) => console.error("Client fallback fetch failed", err));
+    }
+  }, [shorts.length, apiBase]);
 
   const activeShort =
     filtered.find((item) => item.id === activeId) ?? filtered[0] ?? null;
