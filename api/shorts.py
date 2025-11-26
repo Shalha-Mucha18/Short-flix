@@ -1,3 +1,6 @@
-from backend.app.main import app, handler
+from mangum import Mangum
+from backend.app.main import app
 
-__all__ = ["app", "handler"]
+handler = Mangum(app, lifespan="off")
+
+__all__ = ["handler"]

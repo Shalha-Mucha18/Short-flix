@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum
 
-from backend.app.api.v1 import api_router
+from backend.app.api.v1.routes import shorts
 from backend.app.core.config import get_settings
 
 
@@ -17,10 +16,9 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.include_router(api_router)
+    app.include_router(shorts.router, prefix="/api/shorts")
 
     return app
 
 
 app = create_app()
-handler = Mangum(app)
