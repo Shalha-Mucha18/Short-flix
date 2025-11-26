@@ -22,7 +22,7 @@ Open http://localhost:3000
 
 ### Backend/API (Local Testing)
 
-**Option 1: Using Vercel CLI (Recommended)**
+**Option: Using Vercel CLI (Recommended)**
 ```bash
 # Install Vercel CLI globally
 npm i -g vercel
@@ -32,13 +32,7 @@ vercel dev
 ```
 Live available at: https://task-one-brown-60.vercel.app/
 
-**Option 2: Test API directly**
-```bash
-# The API uses Python's standard library (no dependencies needed)
-python3 -c "from api.shorts import handler; print('API loaded successfully')"
-```
 
-Note: The backend uses Python's `BaseHTTPRequestHandler` with no external dependencies.
 
 ## Deployment
 Deployed on Vercel:
