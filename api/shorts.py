@@ -10,9 +10,6 @@ _SHORTS = [
 ]
 
 def handler(request, context):
-    # IMPORTANT: declare global BEFORE any use/assignment inside the function
-    global _SHORTS
-
     path = request.get('path', '')
     method = request.get('method', 'GET')
     
@@ -23,32 +20,24 @@ def handler(request, context):
         'Content-Type': 'application/json'
     }
     
-    # OPTIONS for CORS preflight
     if method == 'OPTIONS':
         return {'statusCode': 200, 'headers': headers, 'body': ''}
 
-    # GET /api/shorts
     if method == 'GET' and path == '/api/shorts':
         return {'statusCode': 200, 'headers': headers, 'body': json.dumps(_SHORTS)}
     
-    # POST /api/shorts
     if method == 'POST' and path == '/api/shorts':
-        try:
-            body = json.loads(request.get('body', '{}'))
-            if not body.get('tags'):
-                return {'statusCode': 400, 'headers': headers, 'body': json.dumps({'detail': 'At least one tag is required.'})}
-            next_id = max((item['id'] for item in _SHORTS), default=0) + 1
-            new_short = {'id': next_id, 'videoUrl': body.get('videoUrl', ''), 'title': body.get('title', ''), 'tags': body.get('tags', [])}
-            _SHORTS.append(new_short)
-            return {'statusCode': 201, 'headers': headers, 'body': json.dumps(new_short)}
-        except Exception as e:
-            return {'statusCode': 400, 'headers': headers, 'body': json.dumps({'detail': str(e)})}
+        body = json.loads(request.get('body', '{}'))
+        if not body.get('tags'):
+            return {'statusCode': 400, 'headers': headers, 'body': json.dumps({'detail': 'At least one tag is required.'})}
+        next_id = max((item['id'] for item in _SHORTS), default=0) + 1
+        new_short = {'id': next_id, 'videoUrl': body.get('videoUrl', ''), 'title': body.get('title', ''), 'tags': body.get('tags', [])}
+        _SHORTS.append(new_short)
+        return {'statusCode': 201, 'headers': headers, 'body': json.dumps(new_short)}
 
-    # DELETE /api/shorts/{id}
     if method == 'DELETE' and path.startswith('/api/shorts/'):
         try:
             short_id = int(path.rstrip('/').split('/')[-1])
-            # remove in-place to avoid accidental reassignment issues (we still declared global above)
             for i, s in enumerate(_SHORTS):
                 if s['id'] == short_id:
                     _SHORTS.pop(i)
@@ -56,7 +45,5 @@ def handler(request, context):
             return {'statusCode': 404, 'headers': headers, 'body': json.dumps({'detail': 'Short not found'})}
         except ValueError:
             return {'statusCode': 400, 'headers': headers, 'body': json.dumps({'detail': 'Invalid id'})}
-        except Exception as e:
-            return {'statusCode': 500, 'headers': headers, 'body': json.dumps({'detail': str(e)})}
 
     return {'statusCode': 404, 'headers': headers, 'body': json.dumps({'detail': 'Not found'})}
