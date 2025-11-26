@@ -4,12 +4,17 @@ import { Short } from "@/types";
 export const revalidate = 0;
 
 async function getShorts(): Promise<Short[]> {
-  let base = "http://localhost:8000";
-  if (process.env.NEXT_PUBLIC_API_BASE) {
+  let base = "";
+  
+  // In production (Vercel), use relative URLs
+  if (process.env.NODE_ENV === "production") {
+    base = "";
+  } else if (process.env.NEXT_PUBLIC_API_BASE) {
     base = process.env.NEXT_PUBLIC_API_BASE;
-  } else if (process.env.VERCEL_URL) {
-    base = `https://${process.env.VERCEL_URL}`;
+  } else {
+    base = "http://localhost:8000";
   }
+  
   base = base.replace(/\/$/, "");
 
   try {
@@ -21,7 +26,7 @@ async function getShorts(): Promise<Short[]> {
 
     return response.json();
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching shorts:", error);
     return [];
   }
 }

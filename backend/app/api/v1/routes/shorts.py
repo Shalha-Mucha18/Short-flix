@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, Query, status
 from backend.app.schemas.short import Short, ShortCreate
 from backend.app.services.short_service import create_short, delete_short, list_shorts
 
-router = APIRouter(prefix="/api/shorts", tags=["shorts"])
+router = APIRouter(prefix="/shorts", tags=["shorts"])
 
 
 @router.get("", response_model=List[Short])
