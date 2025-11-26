@@ -1,6 +1,7 @@
 import json
 
-# In-memory storage
+# In-memory storage for shorts
+# Vercel serverless function
 _SHORTS = [
     {
         "id": 1,
@@ -29,6 +30,9 @@ _SHORTS = [
 ]
 
 def handler(request, context):
+    # Declare global at the top because we assign to _SHORTS later.
+    global _SHORTS
+
     path = request.get('path', '')
     method = request.get('method', 'GET')
     
@@ -88,18 +92,31 @@ def handler(request, context):
     if method == 'DELETE' and path.startswith('/api/shorts/'):
         try:
             short_id = int(path.split('/')[-1])
-            global _SHORTS
-            _SHORTS = [s for s in _SHORTS if s['id'] != short_id]
+            filtered = [s for s in _SHORTS if s['id'] != short_id]
+            if len(filtered) == len(_SHORTS):
+                # nothing removed -> not found
+                return {
+                    'statusCode': 404,
+                    'headers': headers,
+                    'body': json.dumps({'detail': 'Short not found'})
+                }
+            _SHORTS = filtered
             return {
                 'statusCode': 204,
                 'headers': headers,
                 'body': ''
             }
-        except:
+        except ValueError:
             return {
-                'statusCode': 404,
+                'statusCode': 400,
                 'headers': headers,
-                'body': json.dumps({'detail': 'Short not found'})
+                'body': json.dumps({'detail': 'Invalid id'})
+            }
+        except Exception as e:
+            return {
+                'statusCode': 500,
+                'headers': headers,
+                'body': json.dumps({'detail': str(e)})
             }
     
     return {
