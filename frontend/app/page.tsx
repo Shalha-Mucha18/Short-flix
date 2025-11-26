@@ -6,9 +6,11 @@ export const revalidate = 0;
 async function getShorts(): Promise<Short[]> {
   let base = "";
   
-  // In production (Vercel), use relative URLs
+  // In production (Vercel), use the deployment URL
   if (process.env.NODE_ENV === "production") {
-    base = "";
+    base = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : "";
   } else if (process.env.NEXT_PUBLIC_API_BASE) {
     base = process.env.NEXT_PUBLIC_API_BASE;
   } else {
@@ -18,13 +20,18 @@ async function getShorts(): Promise<Short[]> {
   base = base.replace(/\/$/, "");
 
   try {
-    const response = await fetch(`${base}/api/shorts`);
+    const url = `${base}/api/shorts`;
+    console.log("Fetching from:", url);
+    const response = await fetch(url, { cache: 'no-store' });
 
     if (!response.ok) {
+      console.error(`Failed to fetch shorts: ${response.status} ${response.statusText}`);
       throw new Error(`Failed to fetch shorts: ${response.statusText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    console.log("Fetched shorts:", data.length);
+    return data;
   } catch (error) {
     console.error("Error fetching shorts:", error);
     return [];
