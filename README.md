@@ -1,4 +1,4 @@
-## Short-flix
+<h1 align="center">Short-flix</h1>
 
 Short-flix is a polished mini-Netflix experience: FastAPI powers a lightweight shorts API, and Next.js 14 renders a cinematic grid with search, tags, favorites, and add/delete actions. The backend follows a production-style layout (`backend/app` with versioned routers, schemas, services, and core config). `api/shorts.py` re-exports the same app/handler for Vercel so the API deploys as a serverless function. The frontend lives in `frontend/` (Next.js `app/` dir) and consumes the live `/api/shorts` endpoint.
 
