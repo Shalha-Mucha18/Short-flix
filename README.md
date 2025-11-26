@@ -4,13 +4,7 @@ A Netflix-style micro-video platform built with Next.js and Python, designed for
 
 ## Tech Stack
 - **Frontend**: Next.js (React), TypeScript, Vanilla CSS for premium styling
-- **Backend**: Python (BaseHTTPRequestHandler) - switched from FastAPI for better Vercel compatibility
-- **Deployment**: Vercel (Hybrid Next.js + Python Serverless)
-
-## Project Structure
-- `frontend/`: Next.js application handling the UI and client-side logic
-- `api/`: Python serverless functions for video API endpoints
-- `vercel.json`: Configuration for routing and build processes
+- **Backend**: FastAPI
 
 ## How to Run Locally
 
@@ -26,14 +20,33 @@ npm run dev
 ```
 Open http://localhost:3000
 
-### API (Local Testing)
+### Backend/API (Local Testing)
+
+**Option 1: Using Vercel CLI (Recommended)**
 ```bash
-# Install Vercel CLI
+# Install Vercel CLI globally
 npm i -g vercel
 
 # Run from project root
 vercel dev
 ```
+Live available at: https://task-one-brown-60.vercel.app/
+
+**Option 2: Test API directly**
+```bash
+# The API uses Python's standard library (no dependencies needed)
+python3 -c "from api.shorts import handler; print('API loaded successfully')"
+```
+
+Note: The backend uses Python's `BaseHTTPRequestHandler` with no external dependencies.
+
+## Deployment
+Deployed on Vercel:
+- Frontend: Root URL
+- API: `/api/shorts`
+
+Push to main branch for auto-deployment.
+
 ## Improvements
 With more time, I would implement:
 - **Persistence**: Integrate a database (e.g., PostgreSQL/Supabase) to save videos and favorites permanently
