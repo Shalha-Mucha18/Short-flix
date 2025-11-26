@@ -4,7 +4,13 @@ import { Short } from "@/types";
 export const revalidate = 0;
 
 async function getShorts(): Promise<Short[]> {
-  const base = process.env.NEXT_PUBLIC_API_BASE ? process.env.NEXT_PUBLIC_API_BASE.replace(/\/$/, "") : "http://localhost:8000";
+  let base = "http://localhost:8000";
+  if (process.env.NEXT_PUBLIC_API_BASE) {
+    base = process.env.NEXT_PUBLIC_API_BASE;
+  } else if (process.env.VERCEL_URL) {
+    base = `https://${process.env.VERCEL_URL}`;
+  }
+  base = base.replace(/\/$/, "");
 
   try {
     const response = await fetch(`${base}/api/shorts`);

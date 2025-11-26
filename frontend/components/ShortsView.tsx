@@ -27,7 +27,9 @@ export function ShortsView({ initialShorts }: Props) {
 
   const apiBase = process.env.NEXT_PUBLIC_API_BASE
     ? process.env.NEXT_PUBLIC_API_BASE.replace(/\/$/, "")
-    : "http://localhost:8000";
+    : process.env.NODE_ENV === "production"
+      ? ""
+      : "http://localhost:8000";
 
   const tags = useMemo(() => {
     const unique = new Set<string>();
@@ -228,8 +230,8 @@ export function ShortsView({ initialShorts }: Props) {
             <button
               key={tag}
               className={`chip ${selectedTag?.toLowerCase() === tag.toLowerCase()
-                  ? "chip--active"
-                  : ""
+                ? "chip--active"
+                : ""
                 }`}
               onClick={() => setSelectedTag(tag)}
             >
