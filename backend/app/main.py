@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -16,7 +17,10 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.include_router(shorts.router, prefix="/api/shorts")
+    # On Vercel, Mangum strips /api/shorts, so no prefix needed
+    # On localhost, we need the full prefix
+    prefix = "" if os.getenv("VERCEL") else "/api/shorts"
+    app.include_router(shorts.router, prefix=prefix)
 
     return app
 
