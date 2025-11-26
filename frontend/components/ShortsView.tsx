@@ -27,7 +27,7 @@ export function ShortsView({ initialShorts }: Props) {
 
   const apiBase = process.env.NEXT_PUBLIC_API_BASE
     ? process.env.NEXT_PUBLIC_API_BASE.replace(/\/$/, "")
-    : "";
+    : "http://localhost:8000";
 
   const tags = useMemo(() => {
     const unique = new Set<string>();
@@ -227,11 +227,10 @@ export function ShortsView({ initialShorts }: Props) {
           {tags.map((tag) => (
             <button
               key={tag}
-              className={`chip ${
-                selectedTag?.toLowerCase() === tag.toLowerCase()
+              className={`chip ${selectedTag?.toLowerCase() === tag.toLowerCase()
                   ? "chip--active"
                   : ""
-              }`}
+                }`}
               onClick={() => setSelectedTag(tag)}
             >
               #{tag}
@@ -259,9 +258,13 @@ export function ShortsView({ initialShorts }: Props) {
                   src={activeShort.videoUrl}
                   controls
                   autoPlay
+                  muted
                   playsInline
                   controlsList="nodownload"
-                />
+                  className="player-video"
+                >
+                  Your browser does not support the video tag.
+                </video>
               )}
               <div className="player-info">
                 <h2 className="player-title">{activeShort.title}</h2>
@@ -339,9 +342,8 @@ export function ShortsView({ initialShorts }: Props) {
             </div>
             {submitMessage && (
               <div
-                className={`create-card__status ${
-                  submitState === "error" ? "status--error" : "status--success"
-                }`}
+                className={`create-card__status ${submitState === "error" ? "status--error" : "status--success"
+                  }`}
               >
                 {submitMessage}
               </div>

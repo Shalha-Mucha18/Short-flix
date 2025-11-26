@@ -1,24 +1,28 @@
-<h1 align="center">Short-flix</h1>
+# Short-flix
 
-Short-flix is a polished mini-Netflix experience: FastAPI powers a lightweight shorts API, and Next.js 14 renders a cinematic grid with search, tags, favorites, and add/delete actions. The backend follows a production-style layout (`backend/app` with versioned routers, schemas, services, and core config). `api/shorts.py` re-exports the same app/handler for Vercel so the API deploys as a serverless function. The frontend lives in `frontend/` (Next.js `app/` dir) and consumes the live `/api/shorts` endpoint.
+A Netflix-style micro-video platform built with Next.js and FastAPI, designed for serverless deployment on Vercel.
 
-### Local development
-- Backend: `pip install -r requirements.txt` then `uvicorn backend.app.main:app --reload --port 8000`
-- Frontend: `cd frontend && npm install && NEXT_PUBLIC_API_BASE=http://localhost:8000 npm run dev`
+## Tech Stack
+- **Frontend**: Next.js (React), TypeScript, Vanilla CSS for premium styling.
+- **Backend**: FastAPI (Python), Mangum (AWS Lambda/Vercel adapter).
+- **Deployment**: Vercel (Hybrid Next.js + Python Serverless).
 
-### Deployment (Vercel)
-- Repo is preconfigured with `vercel.json` to route `/api/shorts` to the Python function and build the Next.js app from `frontend/next.config.js`.
-- Set `NEXT_PUBLIC_API_BASE` blank/omitted in Vercel to use the same origin; point it elsewhere only if hosting the API separately.
-- Deploy via Vercel CLI (`vercel`, then `vercel --prod`) or the dashboard.
+## Project Structure
+- `frontend/`: Next.js application handling the UI and client-side logic.
+- `backend/`: FastAPI application managing the video data and API endpoints.
+- `api/`: Serverless entry point adapting FastAPI for Vercel.
+- `vercel.json`: Configuration for routing and build processes.
 
-### Tech stack
-- Backend: FastAPI, Mangum (for serverless adapter), pydantic-settings
-- Frontend: Next.js 14 (App Router), React 18
+## Improvements
+With more time, I would implement:
+- **Persistence**: Integrate a database (e.g., PostgreSQL/Supabase) to save videos and favorites permanently.
+- **Authentication**: Add user login to sync favorites across devices.
+- **Media Hosting**: Upload videos to cloud storage (AWS S3 or Cloudinary) instead of using external links.
+- **Infinite Scroll**: Load videos dynamically as the user scrolls.
 
-### Roadmap ideas
-- Persistent storage (Supabase/PlanetScale) instead of in-memory shorts
-- Upload pipeline with thumbnail generation and basic moderation
-- Auth-backed favorites and rate limiting
-- Observability (logging/metrics/tracing) and e2e tests
-
-Built with help from ChatGPT for scaffolding and refinement.
+## AI Usage
+This project was developed with the aid of an AI coding assistant. The AI helped:
+- Scaffold the monorepo structure for Next.js and FastAPI.
+- Design the "Short-flix" UI with modern aesthetics and responsive CSS.
+- Debug cross-origin resource sharing (CORS) and API routing issues.
+- Configure the Vercel deployment settings for a seamless hybrid build.

@@ -4,15 +4,10 @@ import { Short } from "@/types";
 export const revalidate = 0;
 
 async function getShorts(): Promise<Short[]> {
-  const base = process.env.NEXT_PUBLIC_API_BASE
-    ? process.env.NEXT_PUBLIC_API_BASE.replace(/\/$/, "")
-    : "";
+  const base = process.env.NEXT_PUBLIC_API_BASE ? process.env.NEXT_PUBLIC_API_BASE.replace(/\/$/, "") : "http://localhost:8000";
 
   try {
-    const response = await fetch(`${base}/api/shorts`, {
-      next: { revalidate: 0 },
-      cache: "no-store",
-    });
+    const response = await fetch(`${base}/api/shorts`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch shorts: ${response.statusText}`);

@@ -14,10 +14,12 @@ frontend/package-lock.json
 
 # Env / OS
 .DS_Store
-*.env
-*.env.local
+# *.env
+# *.env.local
 *.log
 
 # IDE
 .idea
 .vscode
+.vercel
+.env*.local
