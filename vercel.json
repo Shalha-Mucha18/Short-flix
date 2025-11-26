@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "api/shorts.py": {
+      "runtime": "python3.11",
+      "maxDuration": 10
+    }
+  },
+  "builds": [
+    { "src": "frontend/next.config.js", "use": "@vercel/next" },
+    { "src": "api/shorts.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/api/shorts", "dest": "/api/shorts.py" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
+  ]
+}
