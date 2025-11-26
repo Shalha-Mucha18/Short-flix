@@ -16,7 +16,10 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.include_router(shorts.router, prefix="/api/shorts")
+    # Use prefix only on localhost, not on Vercel
+    import os
+    prefix = "" if os.getenv("VERCEL") else "/api/shorts"
+    app.include_router(shorts.router, prefix=prefix)
 
     return app
 
